@@ -7,10 +7,19 @@ import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  onAuthStateChanged
+  onAuthStateChanged,
 } from "firebase/auth";
 
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  writeBatch,
+  query,
+  getDocs,
+} from "firebase/firestore";
 const firebaseConfig = {
   apiKey: "AIzaSyAgOEKzolZR_N3Zj6YUZkE2LludrouSFls",
   authDomain: "shop-d9901.firebaseapp.com",
@@ -32,6 +41,33 @@ export const signInWithGoogleRedirect = () =>
   signInWithRedirect(auth, provider);
 
 export const db = getFirestore();
+
+export const addCollectionDoc = async (collectionKey, objToAdd) => {
+  const collectionRef = collection(db, collectionKey);
+  const batch = writeBatch(db);
+
+  objToAdd.forEach((obj) => {
+    const docRef = doc(collectionRef, obj.title.toLowerCase());
+    batch.set(docRef, obj);
+  });
+
+  await batch.commit();
+  console.log("done");
+};
+export const getCategoriesDoc = async () => {
+  const collectionRef = collection(db, "categories");
+  const q = query(collectionRef);
+  const querySnapshot = await getDocs(q);
+
+  const categoriesMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+    const { title, items } = docSnapshot.data();
+    acc[title.toLowerCase()] = items;
+    return acc;
+  }, {});
+
+  return categoriesMap;
+};
+
 export const createUserDocFromAuth = async (userAuth, addInfo) => {
   const userDocRef = doc(db, "users", userAuth.uid);
 
@@ -57,6 +93,7 @@ export const signInUserWithEmailAndPasswordSignUp = async (email, password) => {
   if (!password || !email) return;
   return await signInWithEmailAndPassword(auth, email, password);
 };
-export const createSignOut=async ()=>await signOut(auth);
+export const createSignOut = async () => await signOut(auth);
 
-export const onAuthStateChangedListener=(callback)=>onAuthStateChanged(auth,callback);
+export const onAuthStateChangedListener = (callback) =>
+  onAuthStateChanged(auth, callback);

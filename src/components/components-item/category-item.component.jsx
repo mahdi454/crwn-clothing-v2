@@ -1,18 +1,19 @@
-import "./category-item.styles.scss";
+import {BackgroundImage,CategoryContainer,CategoryBodyContainer} from "./category-item.styles.jsx";
+import { useNavigate } from "react-router-dom";
 const CategoryItem = ({ category }) => {
-  const { title, imageUrl } = category;
-
+  const { title, imageUrl,route } = category;
+const navigate=useNavigate();
+const onNavigateHandler=()=>navigate(route)
   return (
-    <div className="category-container">
-      <div
-        className="background-image"
-        style={{ backgroundImage: `url(${imageUrl})` }}
+    <CategoryContainer onClick={onNavigateHandler}>
+      <BackgroundImage
+        imageUrl={imageUrl}
       />
-      <div className="category-body-container">
+      <CategoryBodyContainer>
         <h1>{title}</h1>
         <p>Shop Now</p>
-      </div>
-    </div>
+      </CategoryBodyContainer>
+    </CategoryContainer>
   );
 };
 export default CategoryItem;

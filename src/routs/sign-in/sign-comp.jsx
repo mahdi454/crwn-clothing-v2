@@ -1,7 +1,8 @@
 
 import SignUpForm from "../../components/sign-up-form/sign-up-com";
 import SignEmail from "../../components/signin-email/signin-email.com";
-import './signin.style.scss'
+import './signin.style.jsx'
+import { SignUpPage } from "./signin.style.jsx";
 const SignIn = () => {
   /*   useEffect(()=>
     async ()=>{
@@ -15,14 +16,14 @@ const SignIn = () => {
 
 
   return (
-    <div className="sign-page">
+    <SignUpPage>
       
         <SignUpForm />
     
         <SignEmail />
      
       
-    </div>
+    </SignUpPage>
   );
 };
 export default SignIn;

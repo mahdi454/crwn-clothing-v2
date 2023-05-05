@@ -1,18 +1,16 @@
-
-import { ReactComponent as BagIcon } from '../../assets/shopping-bag.svg'
-import { useContext } from 'react';
-import { BagContext } from '../../context/bag-context';
-import './card-icon.style.scss'
+import { CartIconContainer, ShoppingIcon, ItemCount } from "./card-icon.style";
+import { useContext } from "react";
+import { BagContext } from "../../context/bag-context";
 const CardIcon = () => {
-  const { bagItem, setBagItem,items } = useContext(BagContext);
+  const { bagItem, setBagItem, items } = useContext(BagContext);
 
-const taggleHandler=()=>setBagItem(! bagItem)
+  const taggleHandler = () => setBagItem(!bagItem);
   return (
-    <div className='cart-icon-container'>
-<BagIcon className='shopping-icon' onClick={taggleHandler}/>
-<span className='item-count '>{items}</span>
-    </div>
-  )
-}
+    <CartIconContainer>
+      <ShoppingIcon onClick={taggleHandler} />
+      <ItemCount>{items}</ItemCount>
+    </CartIconContainer>
+  );
+};
 
-export default CardIcon
+export default CardIcon;

@@ -1,4 +1,4 @@
-import "./card-drop.style.scss";
+import {CartDropdownContainer,EmptyMessege,CartItems} from "./card-drop.style.jsx";
 import Button from "../btn/btn-com";
 import { useContext, React } from "react";
 import {BagContext} from "../../context/bag-context";
@@ -12,16 +12,18 @@ const navgiateHandler=()=>{
 }
 
   return (
-    <div className="cart-dropdown-container">
-      <div className="cart-items">
-        {cartItems.map((item) => (
+    <CartDropdownContainer>
+      <CartItems>
+        {
+        cartItems.length  ? (   cartItems.map((item) => (
           <CradItem key={item.id} cartItem={item} />
-        ))}
-      </div>
+        ))):(<EmptyMessege>Your cart is empty</EmptyMessege>)
+     }
+      </CartItems>
      
      <Button onClick={navgiateHandler}>Check out</Button>
      
-    </div>
+    </CartDropdownContainer>
   )
 };
 
